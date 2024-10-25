@@ -1,5 +1,6 @@
 <script>
 	import { csvParse } from 'd3-dsv';
+	
 	import data from './data.js';
 	import Dropdown from './Dropdown.svelte';
 	let parsedData = csvParse(data);
