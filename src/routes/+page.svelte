@@ -4,6 +4,7 @@
 	import data from './data.js';
 	import Dropdown from './Dropdown.svelte';
 	let parsedData = csvParse(data);
+	
 
 	let onsCodes = [...new Set(parsedData.map((el) => el['Local authority code']))];
 
