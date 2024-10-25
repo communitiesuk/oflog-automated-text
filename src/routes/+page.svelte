@@ -10,6 +10,9 @@
 		id: code,
 		label: parsedData.find((el) => el['Local authority code'] == code)['Local authority name']
 	}));
+
+	let metrics = [...new Set(parsedData.map((el) => el.Measure))];
+	console.log(metrics)
 let value_now
 	// goal = drop down menu where user can select LA
 
@@ -18,7 +21,16 @@ let value_now
 <div class="outside">
 <Dropdown values={laList} bind:value={value_now}/>
 VALUE: {value_now.id}<br>
-DATA: {JSON.stringify(parsedData.filter((el) => el['Local authority code'] == value_now.id))}
+DATA: 
+{#each metrics as metric, i}
+{metric}<ul>
+{#each parsedData.filter((el) => el['Local authority code'] == value_now.id && el.Measure == metric) as dataPoint, i}
+
+
+<li>{dataPoint["Financial year"]}: {dataPoint.Value}</li>
+{/each}</ul>
+<br>
+{/each}
 </div>
 
 <style>
