@@ -5,22 +5,19 @@
     export let values;
    
     // Bind the <select> value to a variable (reactive)
-    let value = {};
+    export let value = {};
    
     // Define your own function on change
     const handleChange = (e) => console.log(e);
   </script>
    
    
-  <div class="theme-wrapper">
+
   <Dropdown options={values} bind:value />
-  {#if value.id}
-  {value.id}
-  {/if}
-    </div>
+
    
   <style>
-      @import url("https://cdn.ons.gov.uk/sdc/design-system/67.0.5/css/main.css");
+  @import url("https://cdn.ons.gov.uk/sdc/design-system/67.0.5/css/main.css");
   @import url("https://cdn.ons.gov.uk/dp-design-system/cc82c54/css/main.css");
    
   /* Overrides */
