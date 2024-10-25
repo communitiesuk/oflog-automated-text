@@ -8,5 +8,5 @@ console.log("years",years)
 </script>
 
 {#if tsData}
-<LineChart data={years} xKey="year" yKey="value" zKey="group" title="Line chart example" footer="Source: Oflog" legend={false} />
+<LineChart data={years} xKey="year" yKey="value" zKey="group" title="" footer="Source: Oflog" legend={false} />
 {/if}
