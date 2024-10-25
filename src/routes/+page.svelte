@@ -1,7 +1,9 @@
 <script>
 	import { csvParse } from 'd3-dsv';
 	import data from './data.js';
-	import Dropdown from './Dropdown.svelte';
+	import Dropdown from './components/Dropdown.svelte';
+	import TimeSeries
+	 from './components/TimeSeries.svelte';
 	let parsedData = csvParse(data);
 
 	let onsCodes = [...new Set(parsedData.map((el) => el['Local authority code']))];
@@ -23,12 +25,15 @@ let value_now
 VALUE: {value_now.id}<br>
 DATA: 
 {#each metrics as metric, i}
-{metric}<ul>
+{metric}
+
+<ul>
 {#each parsedData.filter((el) => el['Local authority code'] == value_now.id && el.Measure == metric) as dataPoint, i}
-
-
 <li>{dataPoint["Financial year"]}: {dataPoint.Value}</li>
-{/each}</ul>
+{/each}
+</ul>
+
+<TimeSeries tsData={parsedData.filter((el) => el.Measure == metric)} />
 <br>
 {/each}
 </div>
