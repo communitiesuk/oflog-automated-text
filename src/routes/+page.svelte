@@ -1,45 +1,25 @@
 <script>
-	import { csvParse } from 'd3-dsv';
-	import data from './data.js';
-	import Dropdown from './components/Dropdown.svelte';
-	import TimeSeries
-	 from './components/TimeSeries.svelte';
-	let parsedData = csvParse(data);
 
-	let onsCodes = [...new Set(parsedData.map((el) => el['Local authority code']))];
+	//This first page gets the data that will be needed from CSV and text files and parses them into JSON format for hydrating "Tool" - the master component that will render the data as words and charts
 
-	let laList = onsCodes.map((code) => ({
-		id: code,
-		label: parsedData.find((el) => el['Local authority code'] == code)['Local authority name']
-	}));
+	import {onMount} from 'svelte'	//onMount runs functions before the app loads
 
-	let metrics = [...new Set(parsedData.map((el) => el.Measure))];
-	console.log(metrics)
-let value_now
-	// goal = drop down menu where user can select LA
+	import { csvParse } from 'd3-dsv'; //this conversts CSV to JSON
 
-	// filter out the data from the big dataset
-</script>
-<div class="outside">
-<Dropdown values={laList} bind:value={value_now}/>
-VALUE: {value_now.id}<br>
-DATA: 
-{#each metrics as metric, i}
-{metric}
+	import Tool from './components/Tool.svelte'; //this is the master component
 
-<ul>
-{#each parsedData.filter((el) => el['Local authority code'] == value_now.id && el.Measure == metric) as dataPoint, i}
-<li>{dataPoint["Financial year"]}: {dataPoint.Value}</li>
-{/each}
-</ul>
+	let parsedData //this will contain the numerical data for a service area in JSON format
 
-<TimeSeries tsData={parsedData.filter((el) => el.Measure == metric)} />
-<br>
-{/each}
-</div>
-
-<style>
-	.outside{
-		padding:20px
+	onMount(()=>{
+	fetch("src/data/adult_social_care.csv") //get the CSV file
+	.then(csv => csv.text()) //interpret it as text
+	.then(txt => parsedData = csvParse(txt)) //convert it to JSON
+	.then(x => console.log("data",parsedData)) //console.log to check the result
 	}
-</style>
+	)
+
+</script>
+
+{#if parsedData}
+<Tool {parsedData} />
+{/if}
