@@ -24,9 +24,9 @@
 	{#if valueNow.id}
 	<!-- iterate through metrics -->
 	{#each metrics as metric, i}
-		<h2>{metric}</h2>
+		<h4>{metric}</h4>
 		<!-- send data for metric to TimeSeries component -->
-		<TimeSeries tsData={parsedData.filter((el) => el.Measure == metric)} selectedPlace={valueNow.id} />
+		<TimeSeries tsData={parsedData.filter((el) => el.Measure == metric)} selectedPlace={valueNow.id} {metric}/>
 		<br />
 	{/each}
 	{/if}

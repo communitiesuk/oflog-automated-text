@@ -14,7 +14,7 @@
 	fetch("src/data/adult_social_care.csv") //get the CSV file
 	.then(csv => csv.text()) //interpret it as text
 	.then(txt => parsedData = csvParse(txt)) //convert it to JSON
-	.then(x => console.log("data",parsedData)) //console.log to check the result
+//	.then(x => console.log("data",parsedData)) //console.log to check the result
 	}
 	)
 
