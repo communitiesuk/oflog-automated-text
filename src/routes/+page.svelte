@@ -15,11 +15,12 @@ let html
 	
 	import mammoth from "mammoth";
 	onMount(()=>{
-	fetch("../src/lib/adult_social_care.csv") //get the CSV file
+	//fetch("../src/lib/adult_social_care.csv") //get the CSV file
+	fetch("https://raw.githubusercontent.com/communitiesuk/oflog-automated-text/refs/heads/main/src/lib/adult_social_care.csv")
 	.then(csv => csv.text()) //interpret it as text
 	.then(txt => parsedData = csvParse(txt)) //convert it to JSON
 
-fetch("../src/lib/test.docx") //get the word doc
+fetch("https://github.com/communitiesuk/oflog-automated-text/raw/refs/heads/main/src/lib/test.docx") //get the word doc
 	.then(res => res.arrayBuffer()) //convert it to HTML
 	.then(ab => mammoth.convertToHtml({arrayBuffer: ab})
 	.then(function(result){
