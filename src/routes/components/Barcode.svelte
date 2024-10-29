@@ -1,12 +1,12 @@
 <script>
 export let dataForChart, barcode
 //console.log("barcode",barcode)
-console.log("dtaat for chart", dataForChart)
+// console.log("dtaat for chart", dataForChart)
 export let yMin, yRange, selectedPlace
 
 let medians = dataForChart.filter(e=>e.group=="median").filter(e=>e.value)
 let latestMedianCode = medians[medians.length-1].code
-console.log("latestMedianCode",latestMedianCode)
+// console.log("latestMedianCode",latestMedianCode)
 
 let linePlace=barcode.filter(e=>e["Local authority code"]==selectedPlace)
 

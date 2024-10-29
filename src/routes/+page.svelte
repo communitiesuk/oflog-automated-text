@@ -23,7 +23,7 @@ fetch("src/data/test.docx") //get the word doc
 	.then(res => res.arrayBuffer()) //convert it to HTML
 	.then(ab => mammoth.convertToHtml({arrayBuffer: ab})
 	.then(function(result){
-        html = result.value.replace("[variable]", "something"); // The generated HTML
+        html = result.value.replace("[variable]", "something"); // Change this for a function
         var messages = result.messages; // Any messages, such as warnings during conversion
         console.log("messages",messages)
 
