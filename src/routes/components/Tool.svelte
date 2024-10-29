@@ -35,5 +35,6 @@
 <style>
 	.outside {
 		padding: 20px;
+		padding-left: 70px;
 	}
 </style>

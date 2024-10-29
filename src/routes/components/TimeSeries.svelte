@@ -15,6 +15,12 @@ let getMedian = (data, year, yearData=data.filter(e=>e["Financial year"].split("
                                     .find((e,i)=>i>yearData.length/2)
                                     .Value
 
+let getMedianCode = (data, year, yearData=data.filter(e=>e["Financial year"].split("-")[1] == year)) => 
+                                    yearData
+                                    .sort((a,b)=>a.Value - b.Value)
+                                    .find((e,i)=>i>yearData.length/2)
+                                    ["Local authority code"]
+                                    
 let getMin = (data, year, yearData=data.filter(e=>e["Financial year"].split("-")[1] == year)) => 
 yearData
 .filter(o=>+o.Value)
@@ -27,7 +33,7 @@ yearData
 .sort((a,b)=>a.Value - b.Value)[yearData.length-1]
 .Value
           
-
+$: barcode=tsData.filter(e=>e["Financial year"].split("-")[1]==Math.max(...[...new Set(tsData.map(el=>el["Financial year"].split("-")[1]))]))
 $: maxes=allYears.map(e=>({
     year:e, 
     value:tsData.find(el=>el["Financial year"].split("-")[1]==e)?
@@ -46,6 +52,8 @@ $: median=allYears.map(e=>({
     year:e, 
     value:tsData.find(el=>el["Financial year"].split("-")[1]==e)?
     getMedian(tsData,e):0,
+    code:tsData.find(el=>el["Financial year"].split("-")[1]==e)?
+    getMedianCode(tsData,e):0,
     group:"median"
 }))
 
@@ -61,5 +69,5 @@ $: dataForChart = median.concat(place).concat(mins).concat(maxes)
 </script>
 
 {#if tsData && selectedPlace}
-<TimeseriesChart {dataForChart} {timeValues} {selectedPlace} {metric}/>
+<TimeseriesChart {dataForChart} {timeValues} {selectedPlace} {metric} {barcode}/>
 {/if}
