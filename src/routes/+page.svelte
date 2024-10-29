@@ -8,18 +8,47 @@
 
 	import Tool from './components/Tool.svelte'; //this is the master component
 
+	import Words from './components/Words.svelte';
+let html
+	
 	let parsedData //this will contain the numerical data for a service area in JSON format
-
+	
+	import mammoth from "mammoth";
 	onMount(()=>{
 	fetch("src/data/adult_social_care.csv") //get the CSV file
 	.then(csv => csv.text()) //interpret it as text
 	.then(txt => parsedData = csvParse(txt)) //convert it to JSON
-//	.then(x => console.log("data",parsedData)) //console.log to check the result
-	}
+
+fetch("src/data/test.docx") //get the word doc
+	.then(res => res.arrayBuffer()) //convert it to HTML
+	.then(ab => mammoth.convertToHtml({arrayBuffer: ab})
+	.then(function(result){
+        html = result.value.replace("[variable]", "something"); // The generated HTML
+        var messages = result.messages; // Any messages, such as warnings during conversion
+        console.log("messages",messages)
+
+    })
+    .catch(function(error) {
+        console.error(error);
+    }))
+}
 	)
 
-</script>
 
+</script>
+<div class="outside">
+{#if html}
+{@html html}
+{/if}
 {#if parsedData}
 <Tool {parsedData} />
+
 {/if}
+</div>
+
+<style>
+	.outside {
+		padding: 20px;
+		padding-left: 70px;
+	}
+</style>

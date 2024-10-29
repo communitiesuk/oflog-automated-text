@@ -18,7 +18,7 @@
 
 </script>
 
-<div class="outside">
+
 	<Dropdown values={laList} bind:value={valueNow} />
 
 	{#if valueNow.id}
@@ -30,11 +30,6 @@
 		<br />
 	{/each}
 	{/if}
-</div>
 
-<style>
-	.outside {
-		padding: 20px;
-		padding-left: 70px;
-	}
-</style>
+
+
