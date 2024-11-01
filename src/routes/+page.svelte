@@ -21,7 +21,7 @@ let laList = onsCodes.map((code) => ({
 <div class="outside">
 <Dropdown values={laList} bind:value={selectedPlace} />
 {#if data.words}
-{@html data.words.replace(/\[place\]/g,selectedPlace.label)}
+{@html data.words.replace(/\|\$place\|/g,selectedPlace.label)}
 {/if}
 
 {#if data.data}
