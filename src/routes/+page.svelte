@@ -1,7 +1,7 @@
 <script>
 
 let { data } = $props();
-//console.log("DATA", data)
+console.log("DATA", data)
 
 import Dropdown from './components/Dropdown.svelte';
 import Tool from './components/Tool.svelte';
