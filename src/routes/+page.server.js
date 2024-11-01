@@ -24,7 +24,13 @@ export async function load({ params }) {
 const words0 = await fetch("https://raw.githubusercontent.com/communitiesuk/oflog-automated-text/refs/heads/main/src/lib/test.docx") //get the word doc
 	.then(res =>res.arrayBuffer())
 	.then(b => mammoth.convertToHtml({buffer: b}))
-    .then(html => html.value)
+    .then(html => html.value.replace(e=>e))
+    // clever function needed here to get code (e.g. ASC1_1), 
+    //find its value in the data.data, 
+    //look it up in the data.map, 
+    //find where it sits, 
+    //and spit out the data.map text.
+
     .catch(function(error) {
         console.error("ERROR",error);
     });
