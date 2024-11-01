@@ -1,25 +1,16 @@
 <script>
-	export let parsedData;
+	let {parsedData,valueNow} = $props();;
 	import Dropdown from './Dropdown.svelte';
 	import TimeSeries from './TimeSeries.svelte';
 
-    //Create list of places for dropdown
-	let onsCodes = [...new Set(parsedData.map((el) => el['Local authority code']))];
 
-	let laList = onsCodes.map((code) => ({
-		id: code,
-		label: parsedData.find((el) => el['Local authority code'] == code)['Local authority name']
-	}));
 
     //Create list of metrics
 	let metrics = [...new Set(parsedData.map((el) => el.Measure))];
 
-	let valueNow;
+
 
 </script>
-
-
-	<Dropdown values={laList} bind:value={valueNow} />
 
 	{#if valueNow.id}
 	<!-- iterate through metrics -->

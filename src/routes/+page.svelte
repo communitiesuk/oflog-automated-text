@@ -1,50 +1,32 @@
 <script>
 
-	//This first page gets the data that will be needed from CSV and text files and parses them into JSON format for hydrating "Tool" - the master component that will render the data as words and charts
-
-	import {onMount} from 'svelte'	//onMount runs functions before the app loads
-
-	import { csvParse } from 'd3-dsv'; //this conversts CSV to JSON
-
-	import Tool from './components/Tool.svelte'; //this is the master component
-
-	import Words from './components/Words.svelte';
-let html
-	
-	let parsedData //this will contain the numerical data for a service area in JSON format
-	
-	import mammoth from "mammoth";
-	onMount(()=>{
-	//fetch("../src/lib/adult_social_care.csv") //get the CSV file
-	fetch("https://raw.githubusercontent.com/communitiesuk/oflog-automated-text/refs/heads/main/src/lib/adult_social_care.csv")
-	.then(csv => csv.text()) //interpret it as text
-	.then(txt => parsedData = csvParse(txt)) //convert it to JSON
-
-fetch("https://github.com/communitiesuk/oflog-automated-text/raw/refs/heads/main/src/lib/test.docx") //get the word doc
-	.then(res => res.arrayBuffer()) //convert it to HTML
-	.then(ab => mammoth.convertToHtml({arrayBuffer: ab})
-	.then(function(result){
-        html = result.value.replace("[variable]", "something"); // Change this for a function
-        var messages = result.messages; // Any messages, such as warnings during conversion
-        console.log("messages",messages)
-
-    })
-    .catch(function(error) {
-        console.error(error);
-    }))
-}
-	)
+let { data } = $props();
+//console.log("DATA", data)
 
 
+import Tool from './components/Tool.svelte'; //this is the master component
+import Dropdown from './components/Dropdown.svelte';
+    //Create list of places for dropdown
+let onsCodes = [...new Set(data.data.map((el) => el['Local authority code']))];
+
+let laList = onsCodes.map((code) => ({
+	id: code,
+	label: data.data.find((el) => el['Local authority code'] == code)['Local authority name']
+}));
+let valueNow = $state()
 </script>
-<div class="outside">
-{#if html}
-{@html html}
-{/if}
-{#if parsedData}
-<Tool {parsedData} />
 
+
+<div class="outside">
+<Dropdown values={laList} bind:value={valueNow} />
+{#if data.words}
+{@html data.words}
 {/if}
+
+{#if data.data}
+<Tool parsedData={data.data} {valueNow}/>
+{/if}
+
 </div>
 
 <style>
