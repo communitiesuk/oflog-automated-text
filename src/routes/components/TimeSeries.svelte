@@ -1,7 +1,9 @@
 <script>
 import TimeseriesChart from "./TimeseriesChart.svelte"
-let {tsData, selectedPlace, metric} = $props()
+let {tsData, selectedPlace, metric, nn} = $props()
 
+let filteredTsData=$derived(tsData.filter(el=>nn.includes(el["Local authority code"])))
+//console.log("FilteredTs",tsData.filter(el=>nn.includes(el["Local authority code"])))
 //let dataToRender = tsData.filter(e => e.Value>0).map(e=>({year: +e["Financial year"].split("-")[1], value:e.Value, group:e['Local authority code'] }))
 //
 let years = $state()
@@ -37,32 +39,70 @@ yearData
 let barcode= $derived(
 tsData.filter(e=>e["Financial year"].split("-")[1]==Math.max(...[...new Set(tsData.map(el=>el["Financial year"].split("-")[1]))]))
 )
-let maxes = $derived(
+
+let nnBarcode= $derived(
+    filteredTsData.filter(e=>e["Financial year"].split("-")[1]==Math.max(...[...new Set(tsData.map(el=>el["Financial year"].split("-")[1]))]))
+)
+console.log("BC",nnBarcode)
+
+let englandMaxes = $derived(
 allYears.map(e=>({
     year:e, 
     value:tsData.find(el=>el["Financial year"].split("-")[1]==e)?
     getMax(tsData,e):0,
-    group:"max"
+    group:"englandMax"
 }))
 )
-let mins = $derived(
+
+let nnMaxes = $derived(
+allYears.map(e=>({
+    year:e, 
+    value:filteredTsData.find(el=>el["Financial year"].split("-")[1]==e)?
+    getMax(filteredTsData,e):0,
+    group:"nnMax"
+}))
+)
+
+let englandMins = $derived(
 allYears.map(e=>({
     year:e, 
     value:tsData.filter(el=>el.Value).find(el=>el["Financial year"].split("-")[1]==e)?
     getMin(tsData,e):0,
-    group:"min"
+    group:"englandMin"
 }))
 )
-let median=$derived(
+
+let nnMins = $derived(
+allYears.map(e=>({
+    year:e, 
+    value:filteredTsData.filter(el=>el.Value).find(el=>el["Financial year"].split("-")[1]==e)?
+    getMin(filteredTsData,e):0,
+    group:"nnMin"
+}))
+)
+
+let englandMedian=$derived(
     allYears.map(e=>({
     year:e, 
     value:tsData.find(el=>el["Financial year"].split("-")[1]==e)?
-    getMedian(tsData,e):0,
+   getMedian(tsData,e):0,
     code:tsData.find(el=>el["Financial year"].split("-")[1]==e)?
-    getMedianCode(tsData,e):0,
-    group:"median"
+   getMedianCode(tsData,e):0,
+    group:"englandMedian"
 }))
 )
+
+let nnMedian=$derived(
+    allYears.map(e=>({
+    year:e, 
+    value:filteredTsData.find(el=>el["Financial year"].split("-")[1]==e)?
+   getMedian(filteredTsData,e):0,
+    code:filteredTsData.find(el=>el["Financial year"].split("-")[1]==e)?
+   getMedianCode(filteredTsData,e):0,
+    group:"nnMedian"
+}))
+)
+
 let place=$derived(
 allYears.map(e=>({
     year:e, 
@@ -71,11 +111,11 @@ allYears.map(e=>({
     group:selectedPlace
 }))
 )
-let dataForChart=$state(median.concat(place).concat(mins).concat(maxes)) 
-//dataForChart = median.concat(place).concat(mins).concat(maxes)
+let dataForChart=$state(englandMedian.concat(place).concat(englandMins).concat(englandMaxes)) 
+//dataForChart = englandMedian.concat(place).concat(mins).concat(maxes)
 
 </script>
 
 {#if tsData && selectedPlace}
-<TimeseriesChart dataForChart={median.concat(place).concat(mins).concat(maxes)} {timeValues} {selectedPlace} {metric} {barcode}/>
+<TimeseriesChart dataForChart={englandMedian.concat(place).concat(englandMins).concat(englandMaxes).concat(nnMins).concat(nnMaxes).concat(nnMedian)} {timeValues} {selectedPlace} {metric} {barcode} {nnBarcode}/>
 {/if}

@@ -1,6 +1,6 @@
 <script>
-    let {dataForChart, timeValues, selectedPlace, metric, barcode, latestMedianCode} = $props()
-    //console.log(dataForChart, timeValues, "SELECTED", selectedPlace, metric, barcode, latestMedianCode)
+    let {dataForChart, timeValues, selectedPlace, metric, barcode, nnBarcode, latestMedianCode} = $props()
+    console.log(dataForChart)
     import Barcode from "./Barcode.svelte"
     import Violin from "./Violin.svelte";
     let values= dataForChart.map(e=>+e.value).filter(e=>+e)
@@ -28,17 +28,20 @@
 <line x1={50 + ((400/(timeValues.length-1)) *i)} x2={50 + ((400/(timeValues.length-1)) *i)} y1=350 y2=360 stroke="#666"/>
 <text font-size="0.8em" x={50 + ((400/(timeValues.length-1)) *i)} y=380 fill="#666" text-anchor="middle">{moment}</text>
 {/each}
-<path d={drawLine(dataForChart,"median")} stroke="grey" fill="none"/>
-<path d={drawLine(dataForChart,"min")} stroke="gold" fill="none"/>
-<path d={drawLine(dataForChart,"max")} stroke="gold" fill="none"/>
-<path d={drawLine(dataForChart,selectedPlace)} stroke="red" fill="none"/>
+<path d={drawLine(dataForChart,"englandMedian")} stroke="gold" fill="none" stroke-width=2 stroke-dasharray="8"/>
+<path d={drawLine(dataForChart,"nnMedian")} stroke="blue" fill="none" stroke-width=2 stroke-dasharray="8"/>
+<path d={drawLine(dataForChart,"englandMin")} stroke="gold" fill="none" stroke-dasharray="4"/>
+<path d={drawLine(dataForChart,"englandMax")} stroke="gold" fill="none" stroke-dasharray="4"/>
+<path d={drawLine(dataForChart,"nnMin")} stroke="blue" fill="none" stroke-dasharray="4"/>
+<path d={drawLine(dataForChart,"nnMax")} stroke="blue" fill="none" stroke-dasharray="4"/>
+<path d={drawLine(dataForChart,selectedPlace)} stroke="red" fill="none" stroke-width=2/>
 <line x1=50 x2=50 y1=350 y2=50 stroke="#666" />
 <line x1=40 x2=50 y1=350 y2=350 stroke="#666" />
 <text font-size="0.8em" x=35 y=350 fill="#666" text-anchor=end dominant-baseline=middle >{yMin}</text>
 <line x1=40 x2=50 y1=50 y2=50 stroke="#666" />
 <text font-size="0.8em" x=35 y=50 fill="#666" text-anchor=end dominant-baseline=middle >{yMax}</text>
 <Violin {dataForChart} {barcode} {yMax} {yMin} {yRange} {selectedPlace} {latestMedianCode}/>
-<Barcode {dataForChart} {barcode} {yMax} {yMin} {yRange} {selectedPlace} {latestMedianCode}/>
-
+<Barcode {dataForChart} {barcode} {yMax} {yMin} {yRange} {selectedPlace} {latestMedianCode} color="#666"/>
+<Barcode {dataForChart} barcode={nnBarcode} {yMax} {yMin} {yRange} {selectedPlace} {latestMedianCode} color="blue"/>
 
 </svg>

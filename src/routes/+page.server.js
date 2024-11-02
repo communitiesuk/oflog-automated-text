@@ -1,6 +1,7 @@
 import { error } from '@sveltejs/kit';
 import { csvParse, autoType } from 'd3-dsv';
 import mammoth from "mammoth";
+
 import * as XLSX from 'xlsx/xlsx.mjs';
 // import { PageServerLoad } from './$types'
 function numerise(object){
@@ -40,12 +41,15 @@ const statsToWords = await fetch("https://raw.githubusercontent.com/communitiesu
                                 .then(b => XLSX.read(b))
                                 .then(x => XLSX.utils.sheet_to_csv(x.Sheets[x.SheetNames[0]]))
                                 .then(csv => csvParse(csv, autoType))
+
+
+
 const NNs = await fetch("https://raw.githubusercontent.com/communitiesuk/oflog-automated-text/refs/heads/main/src/lib/NN.json")
                                 .then(res =>res.json())
 
-	if(placeData) {
+	if(placeData ) {
         //console.log("WORDS FROM SERVER JS",words0)
-		return {data: placeData, words: words0, map: statsToWords, nn: NNs};
+		return {data: placeData, words: words0, logic: statsToWords, nn: NNs};
 	}
 
 	error(404, 'Not found');

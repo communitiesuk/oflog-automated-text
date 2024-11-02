@@ -23,7 +23,9 @@
 		"@onsvisual/svelte-components": "^0.1.74",
 		"@sveltejs/adapter-netlify": "^4.3.6",
 		"d3-dsv": "^3.0.1",
+		"html-to-json-parser": "^2.0.1",
 		"mammoth": "^1.8.0",
+		"node-html-to-object": "^1.0.4",
 		"xlsx": "^0.18.5"
 	}
 }

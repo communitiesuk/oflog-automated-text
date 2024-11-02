@@ -19,6 +19,6 @@ let bucketFiller=$derived(buckets.map((e,i)=>barcode.filter(el=>el.Value>=e && (
 </script>
 {#each bucketFiller as bar, i}
 {#if bar}
-<rect x="{560}"  y="{350 - ((buckets[i] - yMin) * 300/yRange) - (300/yRange * bucketSize)}" height="{300/yRange * bucketSize}px" width="{bar * 3}" fill="gold" />
+<rect x="{560}"  y="{350 - ((buckets[i] - yMin) * 300/yRange) - (300/yRange * bucketSize)}" height="{300/yRange * bucketSize}px" width="{bar * 3}" fill="#666" />
 {/if}
 {/each}
