@@ -41,7 +41,7 @@ let lookUp = (code,place) => {
 
 {#await contentTemplate}
 {:then res}
-
+{(console.log("res",res))}
 
 {#each res.content as cont, i}
 {#if cont.type=="p"}
