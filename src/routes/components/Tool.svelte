@@ -1,5 +1,5 @@
 <script>
-	let {parsedData,selectedPlace,nn} = $props();
+	let {parsedData,selectedPlace,nn, code} = $props();
 
 	import TimeSeries from './TimeSeries.svelte';
 
@@ -13,6 +13,14 @@ console.log("NN",nn)
 </script>
 
 	{#if selectedPlace}
+
+	{#if code}
+	<h4>{code}: {selectedPlace}</h4>
+	<!-- send data for metric to TimeSeries component -->
+	<TimeSeries tsData={parsedData.filter((el) => el.Code == code)} {selectedPlace} metric={parsedData.find((el) => el.Code == code).Measure} {nn}/>
+	<br />
+
+	{:else}
 	<!-- iterate through metrics -->
 	{#each metrics as metric, i}
 		<h4>{metric}: {selectedPlace}</h4>
@@ -20,6 +28,7 @@ console.log("NN",nn)
 		<TimeSeries tsData={parsedData.filter((el) => el.Measure == metric)} {selectedPlace} {metric} {nn}/>
 		<br />
 	{/each}
+	{/if}
 	{/if}
 
 
