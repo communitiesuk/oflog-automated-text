@@ -50,6 +50,7 @@ let lookUp = (code,place) => {
 {:else}
 <p>{cont.content}</p>
 {/if}
+{/if}
 {#if cont.type=="h1"}
 <h1>{cont.content}</h1>
 {/if}
