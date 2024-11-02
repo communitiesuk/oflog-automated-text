@@ -45,6 +45,9 @@ let lookUp = (code,place) => {
 
 {#each res.content as cont, i}
 {#if cont.type=="p"}
+{#if cont.content[0]=="%"}
+%image here
+{:else}
 <p>{cont.content}</p>
 {/if}
 {#if cont.type=="h1"}
