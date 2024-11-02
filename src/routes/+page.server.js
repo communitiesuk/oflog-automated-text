@@ -45,7 +45,7 @@ const NNs = await fetch("https://raw.githubusercontent.com/communitiesuk/oflog-a
 
 	if(placeData) {
         //console.log("WORDS FROM SERVER JS",words0)
-		return {data: placeData, words: words0, map: statsToWords}, nn: NNs};
+		return {data: placeData, words: words0, map: statsToWords, nn: NNs};
 	}
 
 	error(404, 'Not found');
