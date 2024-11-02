@@ -1,6 +1,6 @@
 <script>
-	let {parsedData,selectedPlace} = $props();;
-	import Dropdown from './Dropdown.svelte';
+	let {parsedData,selectedPlace} = $props();
+
 	import TimeSeries from './TimeSeries.svelte';
 
 
@@ -12,12 +12,12 @@
 
 </script>
 
-	{#if selectedPlace.id}
+	{#if selectedPlace}
 	<!-- iterate through metrics -->
 	{#each metrics as metric, i}
-		<h4>{metric}</h4>
+		<h4>{metric}: {selectedPlace}</h4>
 		<!-- send data for metric to TimeSeries component -->
-		<TimeSeries tsData={parsedData.filter((el) => el.Measure == metric)} selectedPlace={selectedPlace.id} {metric}/>
+		<TimeSeries tsData={parsedData.filter((el) => el.Measure == metric)} {selectedPlace} {metric}/>
 		<br />
 	{/each}
 	{/if}

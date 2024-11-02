@@ -1,5 +1,6 @@
 <script>
-    export let dataForChart = null, timeValues = null, selectedPlace = null, metric, barcode, latestMedianCode
+    let {dataForChart, timeValues, selectedPlace, metric, barcode, latestMedianCode} = $props()
+    //console.log(dataForChart, timeValues, "SELECTED", selectedPlace, metric, barcode, latestMedianCode)
     import Barcode from "./Barcode.svelte"
     import Violin from "./Violin.svelte";
     let values= dataForChart.map(e=>+e.value).filter(e=>+e)
@@ -9,8 +10,10 @@
 
     let drawLine = (dataForChart, 
                     group) => {
+                   //console.log("bugfix1",dataForChart,group)    
                     let line=dataForChart.filter(e=>e.group==group);
                     let firstVal=line.findIndex(e=>+e.value);
+                    //console.log("bugfix2",line,firstVal)
                     let svg=`M${50 + (firstVal * (400/(timeValues.length-1)))} ${350-(((+line[firstVal].value - yMin) / yRange) * 300)} `
                         line.forEach((e,i)=>+e.value && i>firstVal?
                         svg+=`L ${50+((400/(timeValues.length-1)) *i)} ${(350 - ((+e.value - yMin) / yRange) * 300)} `:"");
@@ -18,6 +21,7 @@
                 }
 
 </script>
+
 <svg width="800px" height="500px" style="overflow:visible">
 <line x1={50} x2={450} y1={350} y2={350} stroke="#666"/>
 {#each timeValues as moment, i}

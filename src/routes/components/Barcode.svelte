@@ -1,16 +1,16 @@
 <script>
-export let dataForChart, barcode
+
 //console.log("barcode",barcode)
 // console.log("dtaat for chart", dataForChart)
-export let yMin, yRange, selectedPlace
+let {dataForChart, barcode, yMin, yRange, selectedPlace} = $props()
 
-let medians = dataForChart.filter(e=>e.group=="median").filter(e=>e.value)
-let latestMedianCode = medians[medians.length-1].code
+let medians = $derived(dataForChart.filter(e=>e.group=="median").filter(e=>e.value))
+let latestMedianCode = $derived(medians[medians.length-1].code)
 // console.log("latestMedianCode",latestMedianCode)
 
-let linePlace=barcode.filter(e=>e["Local authority code"]==selectedPlace)
+let linePlace=$derived(barcode.filter(e=>e["Local authority code"]==selectedPlace))
 
-let lineMedian=barcode.filter(e=>e["Local authority code"]==latestMedianCode)
+let lineMedian=$derived(barcode.filter(e=>e["Local authority code"]==latestMedianCode))
 
 </script>
 <text x=500 y={20} font-size="0.7em">{barcode[0]["Financial year"]}</text>

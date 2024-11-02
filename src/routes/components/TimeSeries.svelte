@@ -1,10 +1,11 @@
 <script>
 import TimeseriesChart from "./TimeseriesChart.svelte"
-export let tsData, selectedPlace, metric
+let {tsData, selectedPlace, metric} = $props()
 
 //let dataToRender = tsData.filter(e => e.Value>0).map(e=>({year: +e["Financial year"].split("-")[1], value:e.Value, group:e['Local authority code'] }))
 //
-let years = [...new Set(tsData.map(e => e["Financial year"]))]
+let years = $state()
+years=[...new Set(tsData.map(e => e["Financial year"]))]
 
 let allYears=[15,16,17,18,19,20,21,22,23,24]
 let timeValues=allYears
@@ -33,22 +34,27 @@ yearData
 .sort((a,b)=>a.Value - b.Value)[yearData.length-1]
 .Value
           
-$: barcode=tsData.filter(e=>e["Financial year"].split("-")[1]==Math.max(...[...new Set(tsData.map(el=>el["Financial year"].split("-")[1]))]))
-$: maxes=allYears.map(e=>({
+let barcode= $derived(
+tsData.filter(e=>e["Financial year"].split("-")[1]==Math.max(...[...new Set(tsData.map(el=>el["Financial year"].split("-")[1]))]))
+)
+let maxes = $derived(
+allYears.map(e=>({
     year:e, 
     value:tsData.find(el=>el["Financial year"].split("-")[1]==e)?
     getMax(tsData,e):0,
     group:"max"
 }))
-
-$: mins=allYears.map(e=>({
+)
+let mins = $derived(
+allYears.map(e=>({
     year:e, 
     value:tsData.filter(el=>el.Value).find(el=>el["Financial year"].split("-")[1]==e)?
     getMin(tsData,e):0,
     group:"min"
 }))
-
-$: median=allYears.map(e=>({
+)
+let median=$derived(
+    allYears.map(e=>({
     year:e, 
     value:tsData.find(el=>el["Financial year"].split("-")[1]==e)?
     getMedian(tsData,e):0,
@@ -56,18 +62,20 @@ $: median=allYears.map(e=>({
     getMedianCode(tsData,e):0,
     group:"median"
 }))
-
-$: place=allYears.map(e=>({
+)
+let place=$derived(
+allYears.map(e=>({
     year:e, 
     value:tsData.filter(elem=>elem["Local authority code"]==selectedPlace).find(el=>el["Financial year"].split("-")[1]==e)?
     +tsData.filter(elem=>elem["Local authority code"]==selectedPlace).find(el=>el["Financial year"].split("-")[1]==e).Value:0,
     group:selectedPlace
 }))
-
-$: dataForChart = median.concat(place).concat(mins).concat(maxes)
+)
+let dataForChart=$state(median.concat(place).concat(mins).concat(maxes)) 
+//dataForChart = median.concat(place).concat(mins).concat(maxes)
 
 </script>
 
 {#if tsData && selectedPlace}
-<TimeseriesChart {dataForChart} {timeValues} {selectedPlace} {metric} {barcode}/>
+<TimeseriesChart dataForChart={median.concat(place).concat(mins).concat(maxes)} {timeValues} {selectedPlace} {metric} {barcode}/>
 {/if}

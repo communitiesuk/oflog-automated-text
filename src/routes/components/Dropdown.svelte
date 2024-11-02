@@ -2,10 +2,10 @@
     import { Dropdown } from "@onsvisual/svelte-components";
    
       
-    export let values;
+    let {values, value=$bindable()}=$props();
    
     // Bind the <select> value to a variable (reactive)
-    export let value = {};
+
    
     // Define your own function on change
     const handleChange = (e) => console.log(e);
