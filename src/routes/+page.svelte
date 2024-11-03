@@ -45,21 +45,21 @@
 			.join('');
 
 let textWithPlaceReplaced = completedText(data.words, placeObject)
-console.log("textWithPlaceReplaced",textWithPlaceReplaced)
-	// let wrappedHTML = $derived('<div>' + completedText(data.words, placeObject) + '</div>');
+//console.log("textWithPlaceReplaced",textWithPlaceReplaced)
+	let wrappedHTML = $derived('<div>' + textWithPlaceReplaced + '</div>');
 //console.log("werapped",wrappedHTML)
-	// async function w2J() {
-	// 	return await HTMLToJSON(wrappedHTML, true).then((res) => JSON.parse(res));
-	// }
+	async function w2J() {
+		return await HTMLToJSON(wrappedHTML, true).then((res) => JSON.parse(res));
+	}
 
-	//let contentTemplate = w2J()
+	let contentTemplate = w2J()
 
 
 </script>
 
 <div class="outside">
 	<Dropdown values={laList} bind:value={placeObject} />
-	<!-- {#if placeObject}
+	{#if placeObject}
 
 
 		{#if data.data}
@@ -84,7 +84,7 @@ console.log("textWithPlaceReplaced",textWithPlaceReplaced)
 
 
 		{/if}
-	{/if} -->
+	{/if}
 </div> 
 
 <style>
