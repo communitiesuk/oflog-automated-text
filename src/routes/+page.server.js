@@ -47,7 +47,7 @@ const statsToWords = await fetch("https://raw.githubusercontent.com/communitiesu
 const NNs = await fetch("https://raw.githubusercontent.com/communitiesuk/oflog-automated-text/refs/heads/main/src/lib/NN.json")
                                 .then(res =>res.json())
 
-	if(placeData ) {
+	if(placeData && words0 && statsToWords && NNs ) {
         //console.log("WORDS FROM SERVER JS",words0)
 		return {data: placeData, words: words0, logic: statsToWords, nn: NNs};
 	}
