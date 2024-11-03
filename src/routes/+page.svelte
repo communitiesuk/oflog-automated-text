@@ -33,18 +33,8 @@
 		return description;
 	};
 
-
-	let lookUpFixed = (code, place) => {
-		let value = JSON.parse(JSON.stringify(data.data))
-			.filter(
-				(e) => e['Local authority code'] == place.id && e['Code'] == code.slice(1).split('_')[0]
-			)
-			.pop().MADs_from_median;
-		let description = data.logic.find(
-			(e) => e.position == code.slice(1) && value >= e.lowerThreshold && value < e.upperThreshold
-		).text;
-		console.log(code.slice(1) + ':', value + ' MADsFromMed =', "'" + description + "'");
-		return description;
+	let lookUpFixed = (code, clue) => {
+		return data.meta[code][clue]
 	};
 
 	let nn = $derived(data.nn[selectedPlace]);
@@ -59,10 +49,11 @@
 			.replace(/\|\$place\|/g, placeObject.label)
 			.split('|')
 			.map((e) => (e[0] == '$' ? lookUpComparison(e, placeObject) : e))
+			.map((e) => (e[0] == '^' ? lookUpFixed(e.slice(1).split("_")[0], e.split("_")[1]) : e))
 			.join('');
 
 let textWithPlaceReplaced = $derived(completedText(data.words, placeObject))
-//console.log("textWithPlaceReplaced",textWithPlaceReplaced)
+//console.log("textWithPlaceReplaced",textWithPlaceReplaced)0
 	let wrappedHTML = $derived('<div>' + textWithPlaceReplaced + '</div>');
 //console.log("werapped",wrappedHTML)
 	async function w2J() {
