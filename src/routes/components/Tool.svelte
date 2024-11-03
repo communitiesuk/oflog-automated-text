@@ -15,7 +15,7 @@ console.log("NN",nn)
 	{#if selectedPlace}
 
 	{#if code}
-	<h4>{code}: {selectedPlace}</h4>
+	<h4>{parsedData.find((el) => el.Code == code).Measure}: {selectedPlace}</h4>
 	<!-- send data for metric to TimeSeries component -->
 	<TimeSeries tsData={parsedData.filter((el) => el.Code == code)} {selectedPlace} metric={parsedData.find((el) => el.Code == code).Measure} {nn}/>
 	<br />
