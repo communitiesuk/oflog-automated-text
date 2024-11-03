@@ -82,7 +82,9 @@ let textWithPlaceReplaced = $derived(completedText(data.words, placeObject))
 					{#if cont.type == 'h2'}
 						<h2>{cont.content}</h2>
 					{/if}
-
+					{#if cont.type == 'h3'}
+						<h4>{cont.content}</h4>
+					{/if}
 				{/each}
 			{/await}
 
