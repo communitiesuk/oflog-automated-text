@@ -44,7 +44,7 @@
 			.map((e) => (e[0] == '$' ? lookUp(e, placeObject) : e))
 			.join('');
 
-let textWithPlaceReplaced = completedText(data.words, placeObject)
+let textWithPlaceReplaced = $derived(completedText(data.words, placeObject))
 //console.log("textWithPlaceReplaced",textWithPlaceReplaced)
 	let wrappedHTML = $derived('<div>' + textWithPlaceReplaced + '</div>');
 //console.log("werapped",wrappedHTML)
@@ -79,6 +79,10 @@ let textWithPlaceReplaced = completedText(data.words, placeObject)
 					{#if cont.type == 'h1'}
 						<h1>{cont.content}</h1>
 					{/if}
+					{#if cont.type == 'h2'}
+						<h2>{cont.content}</h2>
+					{/if}
+
 				{/each}
 			{/await}
 
