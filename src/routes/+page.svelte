@@ -16,7 +16,25 @@
 	let placeObject = $state({ id: 'E06000005', label: 'Darlington' });
 	let selectedPlace = $derived(placeObject.id);
 
-	let lookUp = (code, place) => {
+	let lookUpComparison = (code, place) => {
+		let refinedCode=code.slice(1).split('_')[0]
+		let value = data.data
+			.find(
+				(e) => e['Local authority code'] == place.id 
+				&& e['Code'] == refinedCode
+				&& e["Financial year"] == data.meta[refinedCode].latestYear
+			)
+			.MADs_from_median;
+
+		let description = data.logic.find(
+			(e) => e.position == code.slice(1) && value >= e.lowerThreshold && value < e.upperThreshold
+		).text;
+		//console.log(code.slice(1) + ':', value + ' MADsFromMed =', "'" + description + "'");
+		return description;
+	};
+
+
+	let lookUpFixed = (code, place) => {
 		let value = JSON.parse(JSON.stringify(data.data))
 			.filter(
 				(e) => e['Local authority code'] == place.id && e['Code'] == code.slice(1).split('_')[0]
@@ -29,7 +47,6 @@
 		return description;
 	};
 
-
 	let nn = $derived(data.nn[selectedPlace]);
 
 	$effect(() => {
@@ -41,7 +58,7 @@
 		raw
 			.replace(/\|\$place\|/g, placeObject.label)
 			.split('|')
-			.map((e) => (e[0] == '$' ? lookUp(e, placeObject) : e))
+			.map((e) => (e[0] == '$' ? lookUpComparison(e, placeObject) : e))
 			.join('');
 
 let textWithPlaceReplaced = $derived(completedText(data.words, placeObject))
@@ -70,7 +87,6 @@ let textWithPlaceReplaced = $derived(completedText(data.words, placeObject))
 				{#each res.content as cont, i}
 					{#if cont.type == 'p'}
 						{#if cont.content[0][0] == '%'}
-							%image here
 							<Tool parsedData={data.data} {selectedPlace} {nn} code={cont.content[0].slice(1)} /> 
 						{:else}
 							<p>{cont.content}</p>
