@@ -6,8 +6,18 @@
 	import Tool from './components/Tool.svelte';
 	import { HTMLToJSON } from 'html-to-json-parser';
 
+	let onsCodes = [...new Set(data.data.map((el) => el['Local authority code']))];
+
+	let laList = onsCodes.map((code) => ({
+		id: code,
+		label: data.data.find((el) => el['Local authority code'] == code)['Local authority name']
+	}));
+
+	let placeObject = $state({ id: 'E06000005', label: 'Darlington' });
+	let selectedPlace = $derived(placeObject.id);
+
 	let lookUp = (code, place) => {
-		let value = +data.data
+		let value = JSON.parse(JSON.stringify(data.data))
 			.filter(
 				(e) => e['Local authority code'] == place.id && e['Code'] == code.slice(1).split('_')[0]
 			)
@@ -19,11 +29,13 @@
 		return description;
 	};
 
-	// selectedPlace.id="E06000005"
-	// selectedPlace.label="Darlington"
-	let placeObject = $state({ id: 'E06000005', label: 'Darlington' });
-	let selectedPlace = $derived(placeObject.id);
+
 	let nn = $derived(data.nn[selectedPlace]);
+
+	$effect(() => {
+		selectedPlace;
+		nn;
+	});
 
 	let completedText = (raw, placeObject) =>
 		raw
@@ -32,47 +44,34 @@
 			.map((e) => (e[0] == '$' ? lookUp(e, placeObject) : e))
 			.join('');
 
-	$effect(() => {
-		selectedPlace;
-		nn;
-	});
-
-	let wrappedHTML = $derived('<div>' + completedText(data.words, placeObject) + '</div>');
-
-	async function w2J() {
-		return await HTMLToJSON(wrappedHTML, true).then((res) => JSON.parse(res));
-	}
+let textWithPlaceReplaced = completedText(data.words, placeObject)
+console.log("textWithPlaceReplaced",textWithPlaceReplaced)
+	// let wrappedHTML = $derived('<div>' + completedText(data.words, placeObject) + '</div>');
+//console.log("werapped",wrappedHTML)
+	// async function w2J() {
+	// 	return await HTMLToJSON(wrappedHTML, true).then((res) => JSON.parse(res));
+	// }
 
 	//let contentTemplate = w2J()
 
-	let onsCodes = [...new Set(data.data.map((el) => el['Local authority code']))];
 
-	let laList = onsCodes.map((code) => ({
-		id: code,
-		label: data.data.find((el) => el['Local authority code'] == code)['Local authority name']
-	}));
 </script>
 
 <div class="outside">
 	<Dropdown values={laList} bind:value={placeObject} />
-	{#if placeObject}
-		<!-- {#if data.words}
-{@html data.words
-.replace(/\|\$place\|/g,placeObject.label)
-.split("|")
-.map(e=>e[0]=="$"?lookUp(e,placeObject):e)
-.join("")}
-{/if} -->
+	<!-- {#if placeObject}
+
 
 		{#if data.data}
-			{#await w2J() then res}
+			{#await w2J()}
+			{:then  res}
 				{console.log('res', res)}
 
 				{#each res.content as cont, i}
 					{#if cont.type == 'p'}
 						{#if cont.content[0][0] == '%'}
 							%image here
-							<Tool parsedData={data.data} {selectedPlace} {nn} code={cont.content[0].slice(1)} />
+							<Tool parsedData={data.data} {selectedPlace} {nn} code={cont.content[0].slice(1)} /> 
 						{:else}
 							<p>{cont.content}</p>
 						{/if}
@@ -83,10 +82,10 @@
 				{/each}
 			{/await}
 
-			<!-- <Tool parsedData={data.data} {selectedPlace} {nn}/> -->
+
 		{/if}
-	{/if}
-</div>
+	{/if} -->
+</div> 
 
 <style>
 	.outside {
