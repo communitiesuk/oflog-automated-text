@@ -15,14 +15,14 @@ function numerise(object){
 
 export async function load({ params }) {
 	
-    const placeData = await fetch("https://raw.githubusercontent.com/communitiesuk/oflog-automated-text/refs/heads/main/src/lib/adult_social_care.csv")
+    const placeData = await fetch("https://raw.githubusercontent.com/communitiesuk/oflog-automated-text/refs/heads/main/src/lib/ASC_data.csv")
     .then(csv => csv.text())
     .then(txt => csvParse(txt))
     .catch(function(error) {
         console.error(error);
     });
 
-const words0 = await fetch("https://raw.githubusercontent.com/communitiesuk/oflog-automated-text/refs/heads/main/src/lib/test.docx") //get the word doc
+const words0 = await fetch("https://raw.githubusercontent.com/communitiesuk/oflog-automated-text/refs/heads/main/src/lib/ASC_static_template.docx") //get the word doc
 	.then(res =>res.arrayBuffer())
 	.then(b => mammoth.convertToHtml({buffer: b}))
     .then(html => html.value.replace(e=>e))
@@ -36,7 +36,7 @@ const words0 = await fetch("https://raw.githubusercontent.com/communitiesuk/oflo
         console.error("ERROR",error);
     });
 
-const statsToWords = await fetch("https://raw.githubusercontent.com/communitiesuk/oflog-automated-text/refs/heads/main/src/lib/test.xlsx")
+const statsToWords = await fetch("https://raw.githubusercontent.com/communitiesuk/oflog-automated-text/refs/heads/main/src/lib/ASC_dynamic_template.xlsx")
                                 .then(res =>res.arrayBuffer())
                                 .then(b => XLSX.read(b))
                                 .then(x => XLSX.utils.sheet_to_csv(x.Sheets[x.SheetNames[0]]))
