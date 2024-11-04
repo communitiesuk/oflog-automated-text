@@ -43,5 +43,11 @@
 <Violin {dataForChart} {barcode} {yMax} {yMin} {yRange} {selectedPlace} {latestMedianCode}/>
 <Barcode {dataForChart} {barcode} {yMax} {yMin} {yRange} {selectedPlace} {latestMedianCode} color="#666"/>
 <Barcode {dataForChart} barcode={nnBarcode} {yMax} {yMin} {yRange} {selectedPlace} {latestMedianCode} color="blue"/>
-
+<g class="legend" font-size=0.8em>
+<line x1=50 x2=150 y1=400 y2=400 stroke="gold" stroke-dasharray="4"></line><text x=155 y=400 dominant-baseline=middle>England range</text>
+<line x1=50 x2=150 y1=420 y2=420 stroke="gold" stroke-dasharray="8" stroke-width=2></line><text x=155 y=420 dominant-baseline=middle>England median</text>
+<line x1=50 x2=150 y1=440 y2=440 stroke="blue" stroke-dasharray="4"></line><text x=155 y=440 dominant-baseline=middle>NN range</text>
+<line x1=50 x2=150 y1=460 y2=460 stroke="blue" stroke-dasharray="8" stroke-width=2></line><text x=155 y=460 dominant-baseline=middle>NN median</text>
+<line x1=50 x2=150 y1=480 y2=480 stroke="red"  stroke-width=2></line><text x=155 y=480 dominant-baseline=middle>{selectedPlace}</text>
+</g>
 </svg>
