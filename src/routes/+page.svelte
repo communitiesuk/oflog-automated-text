@@ -64,7 +64,7 @@ let textWithPlaceReplaced = $derived(completedText(data.words, placeObject))
 
 
 </script>
-
+<p>The static template (docx), dynamic template (xlsx), data (csv) and nearest neighbours (JSON) are hosted here: <a href="https://github.com/communitiesuk/oflog-automated-text/tree/main/src/lib">https://github.com/communitiesuk/oflog-automated-text/tree/main/src/lib</a></p>
 <div class="outside">
 	<Dropdown values={laList} bind:value={placeObject} />
 	{#if placeObject}
