@@ -37,6 +37,15 @@
 		return data.meta[code][clue]
 	};
 
+	let lookUpData = (e, placeObject) => {
+		let answer
+		let metric = e.slice(1).split("_")[0]
+		let value = e.split("_")[1]
+		if (value=="value")answer=data.data.filter(e=>e["Financial year"]==data.meta)
+		if (value=="nnMedian")answer="nn median value"
+		return "looking"
+	};
+
 	let nn = $derived(data.nn[selectedPlace]);
 
 	$effect(() => {
@@ -50,6 +59,7 @@
 			.split('|')
 			.map((e) => (e[0] == '$' ? lookUpComparison(e, placeObject) : e))
 			.map((e) => (e[0] == '^' ? lookUpFixed(e.slice(1).split("_")[0], e.split("_")[1]) : e))
+			.map((e) => (e[0] == '@' ? lookUpData(e, placeObject) : e))
 			.join('');
 
 let textWithPlaceReplaced = $derived(completedText(data.words, placeObject))
