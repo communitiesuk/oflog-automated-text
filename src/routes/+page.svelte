@@ -59,7 +59,7 @@
 			.split('|')
 			.map((e) => (e[0] == '$' ? lookUpComparison(e, placeObject) : e))
 			.map((e) => (e[0] == '^' ? lookUpFixed(e.slice(1).split("_")[0], e.split("_")[1]) : e))
-			.map((e) => (e[0] == '@' ? lookUpData(e, placeObject) : e))
+			//.map((e) => (e[0] == '@' ? lookUpData(e, placeObject) : e))
 			.join('');
 
 let textWithPlaceReplaced = $derived(completedText(data.words, placeObject))
