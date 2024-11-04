@@ -117,5 +117,6 @@ let textWithPlaceReplaced = $derived(completedText(data.words, placeObject))
 	.outside {
 		padding: 20px;
 		padding-left: 70px;
+		max-width:1000px
 	}
 </style>
