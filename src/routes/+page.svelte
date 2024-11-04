@@ -74,10 +74,18 @@ let textWithPlaceReplaced = $derived(completedText(data.words, placeObject))
 	}
 
 	let contentTemplate = w2J()
-
+let unlock=$state(false)
+let loginOK = $state()
+let pass="logoff"
+if (loginOK == pass)unlock=true
 
 </script>
+
 <p>The static template (docx), dynamic template (xlsx), data (csv) and nearest neighbours (JSON) are hosted here: <a href="https://github.com/communitiesuk/oflog-automated-text/tree/main/src/lib">https://github.com/communitiesuk/oflog-automated-text/tree/main/src/lib</a></p>
+{#if loginOK != pass}
+<input type=text placeholder="password please" bind:value={loginOK}/>
+{/if}
+{#if loginOK == pass}
 <div class="outside">
 	<Dropdown values={laList} bind:value={placeObject} />
 	{#if placeObject}
@@ -112,7 +120,7 @@ let textWithPlaceReplaced = $derived(completedText(data.words, placeObject))
 		{/if}
 	{/if}
 </div> 
-
+{/if}
 <style>
 	.outside {
 		padding: 20px;
