@@ -38,11 +38,11 @@
 	};
 
 	let lookUpData = (e, placeObject) => {
-		let answer
-		let metric = e.slice(1).split("_")[0]
-		let value = e.split("_")[1]
-		if (value=="value")answer=data.data.filter(e=>e["Financial year"]==data.meta)
-		if (value=="nnMedian")answer="nn median value"
+		// let answer
+		// let metric = e.slice(1).split("_")[0]
+		// let value = e.split("_")[1]
+		// if (value=="value")answer=data.data.filter(e=>e["Financial year"]==data.meta)
+		// if (value=="nnMedian")answer="nn median value"
 		return "looking"
 	};
 
