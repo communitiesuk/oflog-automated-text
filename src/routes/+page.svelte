@@ -34,16 +34,19 @@
 	};
 
 	let lookUpFixed = (code, clue) => {
-		return data.meta[code][clue]
+		return data.meta[code][clue] || "not found"
 	};
 
 	let lookUpData = (e, placeObject) => {
-		// let answer
-		// let metric = e.slice(1).split("_")[0]
-		// let value = e.split("_")[1]
-		// if (value=="value")answer=data.data.filter(e=>e["Financial year"]==data.meta)
-		// if (value=="nnMedian")answer="nn median value"
-		return "looking"
+		let answer
+		let metric = e.slice(1).split("_")[0]
+		let value = e.split("_")[1]
+		let allValues = data.data.filter(el=>el["Financial year"]==data.meta[metric].latestYear && el.Code==metric).map(el=>+el.Value).sort((a,b)=>a-b)
+		let nnValues= data.data.filter(el=>data.nn[placeObject.id].includes(el["Local authority code"]) && el["Financial year"]==data.meta[metric].latestYear && el.Code==metric).map(el=>+el.Value).sort((a,b)=>a-b)
+
+		if (value=="value")answer=data.data.find(el=>el["Financial year"]==data.meta[metric].latestYear && el.Code==metric && el["Local authority code"] == placeObject.id).Value
+		if (value=="nnMedian")answer=nnValues[Math.floor(nnValues.length/2)]
+		return answer
 	};
 
 	let nn = $derived(data.nn[selectedPlace]);
@@ -59,7 +62,7 @@
 			.split('|')
 			.map((e) => (e[0] == '$' ? lookUpComparison(e, placeObject) : e))
 			.map((e) => (e[0] == '^' ? lookUpFixed(e.slice(1).split("_")[0], e.split("_")[1]) : e))
-			//.map((e) => (e[0] == '@' ? lookUpData(e, placeObject) : e))
+			.map((e) => (e[0] == '@' ? lookUpData(e, placeObject) : e))
 			.join('');
 
 let textWithPlaceReplaced = $derived(completedText(data.words, placeObject))

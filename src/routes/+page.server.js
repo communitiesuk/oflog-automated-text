@@ -51,8 +51,8 @@ let metrics = [...new Set(placeData.map(e=>e.Code))]
 metrics.forEach(e=>{
     meta[e]={}
     meta[e].latestYear = placeData.filter(el=>el.Code==e).map(el=>el["Financial year"]).pop();
-    meta[e].allEngland=placeData.filter(el=>el.Code==e).filter(el=>el["Financial year"] == meta[e].latestYear);
-    meta[e].englandMedian=meta[e].allEngland[Math.floor(meta[e].englandMedian=meta[e].allEngland.length/2)].Value
+    meta[e].allEngland=placeData.filter(el=>el.Code==e).filter(el=>el["Financial year"] == meta[e].latestYear).map(el=>+el.Value).sort((a,b)=>a-b);
+    meta[e].englandMedian=meta[e].allEngland[Math.floor(meta[e].allEngland.length/2)]
     }
     )
 
