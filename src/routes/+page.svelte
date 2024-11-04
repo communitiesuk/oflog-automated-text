@@ -76,7 +76,7 @@ let textWithPlaceReplaced = $derived(completedText(data.words, placeObject))
 	let contentTemplate = w2J()
 let unlock=$state(false)
 let loginOK = $state()
-let pass="logoff"
+const pass="logoff"
 if (loginOK == pass)unlock=true
 
 </script>
